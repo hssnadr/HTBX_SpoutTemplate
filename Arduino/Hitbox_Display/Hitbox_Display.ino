@@ -6,21 +6,21 @@
 // Leds configuration
 #define COLS 60                // total number of pixel columns
 #define ROWS 30                // total number of pixel rows
-#define nStrip 5               // number of led strips ensembles (one ensemble per teensy pin)
+#define nStrip 5               // number of led strips ensembles (one ensemble per teensy pin, see library examples for pin connections)
 #define nPix COLS*ROWS         // total number of leds
-#define nPixStrip nPix/nStrip  // number of pix per strip
+#define nPixStrip nPix/nStrip  // number of pixel per strip
 int colorStrip[COLS * ROWS];   // array to store current pixel color values
 
 // Pannel dimensions
-#define dwX 16                  // width between pixels in millimeters
-#define dhY 35                  // height between pixels in millimeters
-int widthPannel = COLS * dwX;   // width of the led pannel in millimeters
-int heightPannel = ROWS * dhY;  // height of the led pannel in millimeters
+#define dwX 16                 // width between pixels in millimeters
+#define dhY 35                 // height between pixels in millimeters
+#define widthPannel COLS*dwX   // width of the led pannel in millimeters
+#define heightPannel ROWS*dhY  // height of the led pannel in millimeters
 
 //--------------------------------
 //--------- OCTOWS2811 -----------
 //--------------------------------
-// Define led stripd to the led control library, to see pin connection check intro from File/Examples/OctoWS2811/BasicTest
+// Define led strips to the led control library, to see pin connection check intro from File/Examples/OctoWS2811/BasicTest
 DMAMEM int displayMemory[nPixStrip * 6];
 int drawingMemory[nPixStrip * 6];
 const int config = WS2811_GRB | WS2811_800kHz;
@@ -32,7 +32,7 @@ OctoWS2811 leds(nPixStrip, displayMemory, drawingMemory, config);
 // Led display variables
 boolean isConnected = false;    // if false led pannel is not refreshed (avoid serial connection issues)
 long timerLedShow0;             // time reference to refresh led pannel display
-int timeRefresh = 10;           // time in millisecond to refresh led pannel
+int timeScreenRefresh = 10;           // time in millisecond to refresh led pannel
 
 // Serial buffer
 char buff[20];                  // buffer to store incoming messages
@@ -80,7 +80,7 @@ void setup() {
 
 void loop() {
   //--------------------------------
-  //----- GET SERIAL MESSAGE -------
+  //----- GET SERIAL MESSAGES ------
   //--------------------------------
   // Get serial messages
   if (Serial.available() > 0) {
@@ -92,14 +92,14 @@ void loop() {
       if (buff[bufIndex] != -1) {
         bufIndex++;
       }
-    } while (buff[bufIndex - 1] != '_');    // End of current message
+    } while (buff[bufIndex - 1] != '_');    // Each message ends with '_' character
 
     // USE SERIAL MESSAGE
     if (bufIndex == 10) {
-      setPixelRGBColorFromSerial(buff);   // Get RGB color for a specific pixel
+      setPixelRGBColorFromSerial(buff);     // Get RGB color for a specific pixel
     }
     else {
-      getSerialCommand(buff);             // Get other messages for extra command
+      getSerialCommand(buff);               // Get other messages for extra command
     }
   }
 
@@ -140,7 +140,7 @@ void loop() {
   //----------- DISPLAY ------------
   //--------------------------------
   // Display new led pattern
-  if (millis() - timerLedShow0 > timeRefresh) {
+  if (millis() - timerLedShow0 > timeScreenRefresh) {
     leds.show();
     timerLedShow0 = millis();
   }

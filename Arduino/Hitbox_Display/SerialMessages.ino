@@ -27,7 +27,7 @@ void setPixelRGBColorFromSerial(char buff_[20]) {
   int blue_ = hexToDec(msg_);
 
   // Set pixel color
-  setNeoPixColor(pix_, (red_ << 16) | (green_ << 8) | blue_);
+  setPixColor(pix_, (red_ << 16) | (green_ << 8) | blue_);
 
   // Reset save mode timer and turn off grid
   if(millis() - timerSaveScreen0 > delSavModeActiv){ 
@@ -44,8 +44,7 @@ void getSerialCommand(char buff_[20]) {
   // Get and use other incoming serial messages
   //!\\ number of char must be different from 10 (otherwise it s received as a led info)
 
-  String msg_ = "";             // initialize string message variable
-
+  String msg_ = "";           // initialize string message variable
   for (int i = 0; i < bufIndex - 1; i++) {
     msg_ += (char)buff_[i];   // collect serial buffer characters into one string message
   }
