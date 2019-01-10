@@ -81,29 +81,29 @@ void loop() {
   //--------------------------------
   //------------ TOUCH -------------
   //--------------------------------
-  // Scan each row
-  for (int row = 0; row < ROWS; row++) {
-    setRegisterPin(row, HIGH); // set current row state to HIGH (while others rows remain at LOW)
+  // Scan each column
+  for (int i = 0; i < COLS; i++) {
+    setRegisterPin(i, HIGH); // set current column state to HIGH (while others columns remain to LOW)
     writeRegisters();
 
-    // Write row reference on serial (zRRxAAAxAAAxAAAxAAA...xAAAq)
+    // Write row reference on serial (zCCxAAAxAAAxAAAxAAA...xAAAq)
     Serial.print("z");
-    Serial.printf("%02X", row); // (RR) two characters corresponding to the current row index in hexadecimal format
+    Serial.printf("%02X", i); // (CC) two characters corresponding to the current column index in hexadecimal format
     
-    // Read electric potential on each points (columns) of the current row
-    for (int col = 0; col < COLS; col++) {
-      Serial.print("x"); // "x" used as separator      
-      if(col < numOfmuxChannel){
-        Serial.printf("%03X", readMux(SIGPIN0, col));                 // (AAA) read and write analog value from the analog multiplexer
+    // Read electric potential on each points (rows) of the current columns
+    for (int j = 0; j < ROWS; j++) {
+      Serial.print("x"); // "x" used as separator
+      if(j < numOfmuxChannel){
+        Serial.printf("%03X", readMux(SIGPIN0, j));                 // (AAA) read and write analog value from the analog multiplexer
       }
       else{
-        Serial.printf("%03X", readMux(SIGPIN1, col%numOfmuxChannel)); // (AAA) use the second analog multiplexer for columns out of range from the first one
+        Serial.printf("%03X", readMux(SIGPIN1, j%numOfmuxChannel)); // (AAA) use the second analog multiplexer for rows out of range from the first one
       }
     }
     Serial.print('q');     // "q" used as end line character
 
-    // Set row pin in high-impedance state
-    setRegisterPin(row, LOW); // set current row back to LOW state (at this step each rows are supposed to be at LOW)
+    // Set column pin in high-impedance state
+    setRegisterPin(i, LOW); // set current row back to LOW state (at this step each rows are supposed to be at LOW)
     writeRegisters();
   }
 
@@ -121,5 +121,3 @@ void loop() {
   Serial.printf("%03X", (int)((az+32768)*4095/65536.)); // ZZZ
   Serial.print('q');                                    // q
 }
-
-

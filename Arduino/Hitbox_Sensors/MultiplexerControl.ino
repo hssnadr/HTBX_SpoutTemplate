@@ -1,3 +1,6 @@
+//--------------------------------
+//----------- DIGITAL ------------
+//--------------------------------
 // DIGITAL MULTIPLEXER CONTROL FUNCTIONS
 void clearRegisters(){
   //set all register pins to LOW
@@ -24,10 +27,9 @@ void writeRegisters(){
   digitalWrite(REGPIN, HIGH);
 }
 
-//--------------------------------------------------------
-//--------------------------------------------------------
-//--------------------------------------------------------
-
+//--------------------------------
+//------------ ANALOG ------------
+//--------------------------------
 // ANALOG MULTIPLEXER CONTROL FUNCTIONS
 int readMux(int sigPin_, int channel_) {
   //read the value at the SIG pin

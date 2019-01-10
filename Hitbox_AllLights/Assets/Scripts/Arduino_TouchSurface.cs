@@ -149,12 +149,12 @@ public class Arduino_TouchSurface : MonoBehaviour
 		case 'z':
 			// GET COORDINATES
 			if (serialdata_ != null) {
-				if (serialdata_.Length == 2 + 4 * COLS) {
+				if (serialdata_.Length == 2 + 4 * ROWS) {
 					//int[] rawdat_ = serialdata_.Split ('x').Select (str => int.Parse (str)).ToArray (); // get 
 					int[] rawdat_ = serialdata_.Split ('x').Select (str => int.Parse (str, System.Globalization.NumberStyles.HexNumber)).ToArray ();
 					//print (rawdat_.Length);
 					//print (COLS+1);
-					if (rawdat_.Length == COLS + 1) { // COLS + 1 ROW
+					if (rawdat_.Length == ROWS + 1) { // rows data + 1 column index
 						int j = rawdat_ [0];
 						for (int k = 1; k < rawdat_.Length; k++) {
 							pointGrid [j, k - 1].GetComponent<DatapointControl> ().pushNewRawVal (rawdat_ [k]);
