@@ -25,8 +25,6 @@ public class ImpactPoint_Control : MonoBehaviour {
 	}
 	
 	void Update () {
-		
-
 		// Get instant center of pressure
 		float totG_ = 0.0f;   // instant total pressure
 		float xG_ = 0f;       // instant X coordinate of center of pressure
