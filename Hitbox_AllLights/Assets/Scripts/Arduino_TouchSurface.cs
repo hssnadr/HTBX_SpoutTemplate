@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class Arduino_TouchSurface : MonoBehaviour
 {
+    public string serialPort = "";
+
 	// Thread variables
 	public Thread serialThread;
 	public SerialPort serial;
@@ -45,7 +47,7 @@ public class Arduino_TouchSurface : MonoBehaviour
 		{
 			Debug.Log(str); // print available serial ports
 		}
-		serial = new SerialPort ("COM4",38400);
+		serial = new SerialPort (serialPort, 38400);
 		connect ();
 		StartCoroutine (printSerialDataRate (1f));
 	}

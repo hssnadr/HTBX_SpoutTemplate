@@ -7,8 +7,9 @@ using System.Threading;
 public class Arduino_LedControl : MonoBehaviour
 {
 	public SerialPort serial;
+    public string serialPort = "";
 
-	public Thread serialThread;
+    public Thread serialThread;
 	public bool gameRunning = true; // TO CHANGE
 
 	string ledSerialData = "";
@@ -44,7 +45,7 @@ public class Arduino_LedControl : MonoBehaviour
 		}
 
 		// Initialize serial connection to leds pannel
-		serial = new SerialPort ("COM3", 38400);
+		serial = new SerialPort (serialPort, 38400);
 		Debug.Log ("Connection started");
 		try {
 			serial.Open ();
