@@ -628,7 +628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27ef6df8dd28ea54fadcf55421ee9490, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serialPort: COM7
+  serialPort: COM4
   gameRunning: 1
   cameraP1: {fileID: 619089394}
 --- !u!1 &1536887368
